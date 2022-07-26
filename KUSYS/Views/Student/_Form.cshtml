@@ -1,0 +1,230 @@
+﻿@model Core.Dtos.AddStudentDto
+@{
+    Layout = null;
+}
+ <style>
+	 .flatpickr-wrapper{
+		 width:100%
+	 }
+ </style>
+			 										<!--begin::Form-->
+ 
+
+	<form id="kt_modal_add_student_form" class="form fv-plugins-bootstrap5 fv-plugins-framework" asp-antiforgery="true" asp-action="@(Model.Id==0?"AddStudent":"EditStudent")" asp-controller="Student" data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-mode="replace"
+      data-ajax-begin="OnBegin" data-ajax-complete="OnComplete" data-ajax-success="OnSuccess"  enctype='multipart/form-data'>
+	  <input type="hidden" asp-for="Id" />
+	<!--begin::Scroll-->
+	<div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px" style="max-height: 585px;">
+	 
+		<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<!--begin::Label-->
+			<label class="required fw-bold fs-6 mb-2">Student No</label>
+			<!--end::Label-->
+			<!--begin::Input-->
+			<input type="text"   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Student No"  asp-for="StudentNo">
+			<!--end::Input-->
+	 <span asp-validation-for="StudentNo" style="width: 100%; margin-top: 0.25rem; font-size: 0.9rem; color: #F64E60;"></span>
+		</div>
+		<!--end::Input group-->
+		<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<!--begin::Label-->
+			<label class="required fw-bold fs-6 mb-2">First Name</label>
+			<!--end::Label-->
+			<!--begin::Input-->
+			<input type="text"   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="First Name"  asp-for="FirstName">
+			<!--end::Input-->
+		 <span asp-validation-for="FirstName" style="width: 100%; margin-top: 0.25rem; font-size: 0.9rem; color: #F64E60;"></span>
+		</div>
+		<!--end::Input group-->
+		
+		<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<!--begin::Label-->
+			<label class="required fw-bold fs-6 mb-2">Last Name</label>
+			<!--end::Label-->
+			<!--begin::Input-->
+			<input type="text"   class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Last Name"  asp-for="LastName">
+			<!--end::Input-->
+	 <span asp-validation-for="LastName" style="width: 100%; margin-top: 0.25rem; font-size: 0.9rem; color: #F64E60;"></span>
+		</div>
+		<!--end::Input group-->
+		<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<!--begin::Label-->
+			<label class="required fw-bold fs-6 mb-2">Email</label>
+			<!--end::Label-->
+			<!--begin::Input-->
+			<input type="email"  class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Email" asp-for="Email">
+			<!--end::Input-->
+	 <span asp-validation-for="Email" style="width: 100%; margin-top: 0.25rem; font-size: 0.9rem; color: #F64E60;"></span>
+		</div>
+		<!--end::Input group-->
+		<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<!--begin::Label-->
+			<label class="required fw-bold fs-6 mb-2">Phone</label>
+			<!--end::Label-->
+			<!--begin::Input-->
+			<input type="text"  class="form-control form-control-solid mb-3 mb-lg-0 " placeholder="Phone" asp-for="Phone">
+			<!--end::Input-->
+	 <span asp-validation-for="Phone" style="width: 100%; margin-top: 0.25rem; font-size: 0.9rem; color: #F64E60;"></span>
+		</div>
+		<!--end::Input group-->
+			<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<!--begin::Label-->
+			<label class="required fw-bold fs-6 mb-2">Birth Date</label>
+			<!--end::Label-->
+			<!--begin::Input-->
+			<input type="text"  class="form-control form-control-solid mb-3 mb-lg-0"  placeholder="00-00-0000" asp-for="BirthDate">
+			<!--end::Input-->
+		 <span asp-validation-for="BirthDate" style="width: 100%; margin-top: 0.25rem; font-size: 0.9rem; color: #F64E60;"></span>
+			</div>
+		<!--end::Input group-->
+
+			<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<!--begin::Label-->
+			<label class="required fw-bold fs-6 mb-2">Courses</label>
+			<!--end::Label-->
+			<!--begin::Input-->
+			<select class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select an option"   asp-for="Courses" data-allow-clear="true" multiple="multiple">
+			 
+				@foreach (var item in  ViewBag.CourseList as List<Core.Entities.Concrete.Course> )
+				{
+					if(Model.Courses!=null &&Model.Courses.Contains(item.Id) ){
+						<option selected value="@(item.Id)"> @(item.CourseId + " "+ item.CourseName)</option>
+					}
+					else
+					{
+						<option value="@(item.Id)"> @(item.CourseId + " "+ item.CourseName)</option>
+					}
+				}
+			</select>
+
+			<!--end::Input-->
+		 <span asp-validation-for="Courses" style="width: 100%; margin-top: 0.25rem; font-size: 0.9rem; color: #F64E60;"></span>
+			</div>
+		<!--end::Input group-->
+
+	
+			<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<!--begin::Label-->
+			<label class="required fw-bold fs-6 mb-2">Password</label>
+			<!--end::Label-->
+			<!--begin::Input-->
+			<input type="password"  class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Password" asp-for="Password">
+			<!--end::Input-->
+		 <span asp-validation-for="Password" style="width: 100%; margin-top: 0.25rem; font-size: 0.9rem; color: #F64E60;"></span>
+			</div>
+		<!--end::Input group-->
+		
+			<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<!--begin::Label-->
+			<label class="required fw-bold fs-6 mb-2">Password</label>
+			<!--end::Label-->
+			<!--begin::Input-->
+			<input type="password"  class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Confirm Password" asp-for="ConfirmPassword">
+			<!--end::Input-->
+		 <span asp-validation-for="ConfirmPassword" style="width: 100%; margin-top: 0.25rem; font-size: 0.9rem; color: #F64E60;"></span>
+			</div>
+		<!--end::Input group-->
+
+			<!--begin::Input group-->
+		<div class="fv-row mb-7 fv-plugins-icon-container">
+			<div class="form-check form-switch form-check-custom form-check-solid">
+				@if (Model.Id == 0)
+				{
+					<input class="form-check-input" type="checkbox" value="true" id="chStatus" asp-for="Status" checked="checked" />
+				}else{
+					<input class="form-check-input" type="checkbox" value="true" id="chStatus" asp-for="Status"   />
+
+				}
+
+				
+				<label class="form-check-label" for="chStatus">
+					Status
+				</label>
+			</div>	 
+		</div>
+		<!--end::Input group-->
+	
+		 
+	</div>
+	<!--end::Scroll-->
+	<!--begin::Actions-->
+	<div class="text-center pt-15">
+		  <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+			<span class="indicator-label">Submit</span>
+			 
+		</button>
+	</div>
+	<!--end::Actions-->
+<div></div></form>
+<!--end::Form-->
+<partial name="_ValidationScriptsPartial" />
+<script src="~/js/app.js"></script>
+<script>
+	$("#BirthDate").flatpickr({
+    
+		enableTime: false,
+    dateFormat: "d-m-Y",
+	allowInput: true,
+	defaultDate: "today",
+	static: true
+	 
+});
+  $(document).ready(function () {
+        if (@(Model.Id)> 0) {
+        
+        $("#Password").rules("remove");
+		 $("#ConfirmPassword").rules("remove");
+    }
+    });
+ 
+    function OnSuccess(result) {
+        if (result) {
+            if (result.success) {
+                Swal.fire("", result.message, "success");
+                setTimeout(function () {
+                    window.location.href = "/Student";
+                }, 2000);
+            } else {
+                Swal.fire("", result.message, "error");
+            }
+
+
+        }
+
+
+
+    }
+
+    function OnBegin() {
+      
+
+		var button = document.querySelector("#kt_modal_add_student_form");
+			var blockUI = new KTBlockUI(button);
+			 blockUI.block();
+
+    }
+
+    function OnComplete() {
+        window.setTimeout(function () {
+          	var button = document.querySelector("#kt_modal_add_student_form");
+            var blockUI = new KTBlockUI(button);
+			blockUI.release();
+        }, 100);
+    }
+
+
+
+
+</script>					 

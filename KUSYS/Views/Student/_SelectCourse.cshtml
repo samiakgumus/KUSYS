@@ -1,0 +1,74 @@
+﻿@model List<Core.Dtos.StudentSelectCourseDto>
+@using Core.Extensions
+<form id="student_select_course_form" class="form fv-plugins-bootstrap5 fv-plugins-framework p-1" asp-antiforgery="true" asp-action="SelectCourse" asp-controller="Student" data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-mode="replace"
+      data-ajax-begin="OnBegin" data-ajax-complete="OnComplete" data-ajax-success="OnSuccess" enctype='multipart/form-data'>
+    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_user_header" data-kt-scroll-wrappers="#kt_modal_add_user_scroll" data-kt-scroll-offset="300px" style="max-height: 585px;">
+
+        <div class="col-md-12">
+            
+            @foreach (var (course, index) in Model.WithIndex())
+            {
+                <input type="hidden" asp-for="@Model[index].CourseId" value="@(course.CourseId)" />
+
+                <div class="form-check form-check-custom form-check-solid">
+                    <input class="form-check-input" type="checkbox" value="true" asp-for="@Model[index].Selected" id="Course@(index)_Selected" />
+                    <label class="form-check-label" for="Course@(index)_Selected">
+                        @(course.CourseName)
+                    </label>
+                </div>
+                <br />
+            }
+
+        </div>
+    </div>
+    <!--begin::Actions-->
+    <div class="text-center pt-15">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+            <span class="indicator-label">Submit</span>
+
+        </button>
+    </div>
+    <!--end::Actions-->
+</form>
+<script>
+
+    function OnSuccess(result) {
+        if (result) {
+            if (result.success) {
+               Swal.fire("", result.message, "success");
+                setTimeout(function() {
+                    window.location.href = "/Student/SelectedCourses";
+                }, 2000);
+            } else {
+                Swal.fire("", result.message, "error");
+            }
+
+
+        }
+
+
+
+    }
+
+    function OnBegin() {
+
+
+        var button = document.querySelector("#student_select_course_form");
+        var blockUI = new KTBlockUI(button);
+        blockUI.block();
+
+    }
+
+    function OnComplete() {
+        window.setTimeout(function() {
+            var button = document.querySelector("#student_select_course_form");
+            var blockUI = new KTBlockUI(button);
+            blockUI.release();
+        }, 100);
+    }
+
+
+</script>

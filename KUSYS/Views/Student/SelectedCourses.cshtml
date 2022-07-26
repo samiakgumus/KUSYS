@@ -1,0 +1,98 @@
+﻿@model List<string>
+@using Core.Extensions
+<div class="card">
+
+    <div class="card-header border-0">
+        <!--begin::Card title-->
+        <div class="card-title">
+            <h2>Selected Courses</h2>
+        </div>
+        <!--end::Card title-->
+        <!--begin::Card toolbar-->
+        <div class="card-toolbar">
+            <!--begin::Filter-->
+            <a   class="btn btn-sm btn-flex btn-light-primary" data-bs-toggle="modal" data-bs-target="#modal_student_select_course" onclick="GetSelectCourseForm()">
+                <!--begin::Svg Icon | path: icons/duotune/general/gen035.svg-->
+                <span class="svg-icon svg-icon-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <rect opacity="0.3" x="2" y="2" width="20" height="20" rx="5" fill="black"></rect>
+                        <rect x="10.8891" y="17.8033" width="12" height="2" rx="1" transform="rotate(-90 10.8891 17.8033)" fill="black"></rect>
+                        <rect x="6.01041" y="10.9247" width="12" height="2" rx="1" fill="black"></rect>
+                    </svg>
+                </span>
+                <!--end::Svg Icon-->Select course
+            </a>
+            <!--end::Filter-->
+        </div>
+        <!--end::Card toolbar-->
+    </div>
+
+    <div class="card-body py-4">
+     
+        <div class="row">
+            
+
+            <div class="col-md-12">
+                @if (Model.Count > 0)
+                {
+                    foreach (var course in Model)
+                    {
+                        <p>@(course)   </p>
+                    }
+                }
+                else
+                {
+                    <div class="alert   bg-danger d-flex flex-column flex-sm-row w-100 p-5 mb-10">
+                        <!--begin::Icon-->
+                        <!--begin::Svg Icon | path: icons/duotune/communication/com003.svg-->
+                        <span class="svg-icon svg-icon-2hx svg-icon-light me-4 mb-5 mb-sm-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path opacity="0.3" d="M2 4V16C2 16.6 2.4 17 3 17H13L16.6 20.6C17.1 21.1 18 20.8 18 20V17H21C21.6 17 22 16.6 22 16V4C22 3.4 21.6 3 21 3H3C2.4 3 2 3.4 2 4Z" fill="black"></path>
+                                <path d="M18 9H6C5.4 9 5 8.6 5 8C5 7.4 5.4 7 6 7H18C18.6 7 19 7.4 19 8C19 8.6 18.6 9 18 9ZM16 12C16 11.4 15.6 11 15 11H6C5.4 11 5 11.4 5 12C5 12.6 5.4 13 6 13H15C15.6 13 16 12.6 16 12Z" fill="black"></path>
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                        <!--end::Icon-->
+                        <!--begin::Content-->
+                        <div class="d-flex flex-column text-light pe-0 pe-sm-10">
+                            <h4 class="mb-2 text-light">Please select course</h4>
+                            <span>You have not select any course</span>
+                        </div>
+                        <!--end::Content-->
+
+                    </div>
+                }
+
+            </div>
+        </div>
+       
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+        function GetSelectCourseForm() {
+             $("#modal_student_select_course_body").html("");
+            $.ajax({
+                url: '/Student/GetSelectCourseForm',
+                
+                type: 'POST',
+                success: function(data) {
+
+                   
+                    $("#modal_student_select_course_title").html("Edit Student");
+                    $("#modal_student_select_course_body").html(data);
+
+                },
+                error: function(jxhr, msg, err) {
+                    if (jxhr.status == 401) {
+                        window.location.href = "/Account?ReturnUrl=Student/SelectedCourses";
+                    }
+
+                }
+            });
+        }
+
+
+    </script>
+}

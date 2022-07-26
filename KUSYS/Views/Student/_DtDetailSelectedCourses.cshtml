@@ -1,0 +1,25 @@
+﻿@model List<Core.Entities.Concrete.Course>
+@if(Model!=null){
+<div class="table-responsive">
+    <table class="table table-striped gy-7 gs-7">
+        <thead>
+            <tr class="fw-bold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                <th class="min-w-200px"><strong>Selected Courses</strong></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                  <tr><td>@(item.CourseId+" "+ item.CourseName)</td></tr>
+                 
+             
+            }
+          
+             
+        </tbody>
+    </table>
+</div>
+}else{
+    <p>No data found</p>
+}
