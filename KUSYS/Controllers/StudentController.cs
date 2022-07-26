@@ -149,13 +149,7 @@ namespace KUSYS.Controllers
 
                     if (_studentService.Add(studentModel) > 0)
                     {
-
-                        if (model.Courses != null && model.Courses.Count > 0)
-                        {
-                            _studentCourseService.UpdateStudentCourses(model.Courses, studentModel.Id);
-
-                        }
-
+                        _studentCourseService.UpdateStudentCourses(model.Courses, studentModel.Id);
 
                         return Json(new SuccessResult("The process has been done successfully"));
                     }
@@ -235,14 +229,7 @@ namespace KUSYS.Controllers
 
                     if (_studentService.Update(dataStudent) > 0)
                     {
-
-
-                        if (model.Courses != null && model.Courses.Count > 0)
-                        {
-                            _studentCourseService.UpdateStudentCourses(model.Courses, dataStudent.Id);
-
-                        }
-
+                        _studentCourseService.UpdateStudentCourses(model.Courses, dataStudent.Id);
 
                         return Json(new SuccessResult("The process has been done successfully"));
                     }
@@ -454,7 +441,7 @@ namespace KUSYS.Controllers
                     model.LastName = dataStudent.LastName;
                     model.Email = dataUser.Email;
                     model.Phone = dataUser.Phone;
-                    
+
                 }
                 else
                 {
@@ -465,24 +452,24 @@ namespace KUSYS.Controllers
             {
                 return NotFound();
             }
-           
+
 
 
             return View(model);
         }
         #endregion
-      
+
         #region Gets student profile page for admin datatable student detail modal
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult ProfilePartial(int id)
         {
-         
+
 
             var model = new StudentProfileDto();
             var dataStudent = _studentService.Get(id);
-           
+
             if (dataStudent != null)
             {
                 var dataUser = _userService.Get(dataStudent.UserId);

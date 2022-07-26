@@ -20,17 +20,20 @@ namespace DataAccess.Concrete
                 var dataCurrentStudentCourses = (from sc in context.StudentCourses where sc.StudentId == studentId select sc).ToList();
                 context.RemoveRange(dataCurrentStudentCourses);
 
-                context.SaveChanges();
+               var deleteResult= context.SaveChanges();
 
-                foreach (var item in studentCourses)
+                if (studentCourses != null && studentCourses.Count > 0)
                 {
-                    context.Add(new StudentCourse { CourseId=item,StudentId=studentId});
+                    foreach (var item in studentCourses)
+                    {
+                        context.Add(new StudentCourse { CourseId = item, StudentId = studentId });
+                    }
+                    return context.SaveChanges();
                 }
-
-              
-                
-                return context.SaveChanges();
-
+                else
+                {
+                    return deleteResult;
+                }
 
 
             }

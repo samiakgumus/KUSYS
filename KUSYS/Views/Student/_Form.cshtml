@@ -184,7 +184,9 @@
   $(document).ready(function () {
         if (@(Model.Id)> 0) {
         
+			 $("#Courses").rules("remove");
         $("#Password").rules("remove");
+		
 		 $("#ConfirmPassword").rules("remove");
     }
     });
